@@ -1,0 +1,1009 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        font:
+          14px -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+        background: #fff;
+        color: #000;
+      }
+      img {
+        max-width: 100%;
+      }
+      [hidden]:not([hidden="until-found" i]) {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <title>Luksong Baka</title>
+    <meta name="claude:viewport-fit-sides" content="cover" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&family=Lilita+One&display=swap"
+    />
+    <style>
+      /* Layout: one screen at a time (landing → menu → 3 windows), parchment world, chunky outlined type, brown-bordered candy panels. Single deliberate theme. */
+      :root {
+        color-scheme: light;
+        --ink: #451804; /* outlines + text */
+        --cream: #f6e7c8; /* text stroke, highlights */
+        --parchment: #d9be8c;
+        --orange-a: #f94c04; /* gradient top */
+        --orange-b: #fbc22a; /* gradient bottom */
+        --card-a: #e45f62;
+        --card-b: #f2864a;
+        --panel-a: #ee9c76;
+        --panel-b: #edc25e;
+        --tag-a: #ffb2a2;
+        --tag-b: #ff8197;
+        --green: #12cf12;
+        --red: #e00a0a;
+        --display: "Bowlby One SC", "Arial Black", Impact, sans-serif;
+        --body:
+          "Lilita One", "Arial Rounded MT Bold", "Trebuchet MS", sans-serif;
+        --border: clamp(5px, 0.7vw, 9px);
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        background: var(--parchment);
+        color: var(--ink);
+        font-family: var(--body);
+        overflow: hidden;
+      }
+
+      /* ---------- Shared backgrounds ---------- */
+
+      h1 {
+        margin-bottom: 50px;
+      }
+      .parchment {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        background:
+          radial-gradient(
+            ellipse at 15% 10%,
+            rgba(255, 240, 210, 0.55),
+            transparent 55%
+          ),
+          radial-gradient(
+            ellipse at 90% 90%,
+            rgba(120, 70, 20, 0.35),
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse at 100% 0%,
+            rgba(140, 80, 30, 0.3),
+            transparent 45%
+          ),
+          var(--parchment);
+        background-size: cover;
+        background-position: center;
+      }
+      .parchment::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        opacity: 0.35;
+        mix-blend-mode: multiply;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 .4 0 0 0 0 .25 0 0 0 0 .1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
+
+      /* ---------- Screens ---------- */
+      .screen {
+        position: relative;
+        height: 100%;
+        overflow: hidden;
+      }
+      .screen-inner {
+        position: relative;
+        z-index: 2;
+        height: 100%;
+        padding-block: clamp(16px, 3vh, 36px);
+        padding-left: max(16px, env(safe-area-inset-left, 0px));
+        padding-right: max(16px, env(safe-area-inset-right, 0px));
+        box-sizing: border-box;
+      }
+
+      /* ---------- Type ---------- */
+      .outlined {
+        font-family: var(--display);
+        -webkit-text-stroke: 0.14em var(--cream);
+        paint-order: stroke fill;
+        line-height: 0.95;
+        letter-spacing: 0.01em;
+      }
+      .title {
+        text-align: center;
+        text-wrap: balance;
+        margin: 0;
+      }
+      .title .l1 {
+        display: block;
+        font-size: clamp(2.4rem, 7.5vw, 6.5rem);
+      }
+      .title .l2 {
+        display: block;
+        font-size: clamp(1.9rem, 6.6vw, 5.8rem);
+        color: var(--ink);
+      }
+      .green {
+        color: var(--green);
+      }
+      .red {
+        color: var(--red);
+      }
+
+      /* ---------- Buttons ---------- */
+      button {
+        font: inherit;
+        color: inherit;
+        cursor: pointer;
+      }
+      :focus-visible {
+        outline: 4px solid #fff;
+        outline-offset: 4px;
+      }
+      .pill {
+        border: var(--border) solid var(--ink);
+        border-radius: 999px;
+        background: linear-gradient(180deg, var(--orange-a), var(--orange-b));
+      }
+      .cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-family: var(--display);
+        font-size: clamp(1.5rem, 3.6vw, 3.2rem);
+        line-height: 1;
+        padding: 0.45em 1.6em;
+        color: var(--ink);
+        transition:
+          transform 0.15s ease,
+          filter 0.15s ease;
+      }
+      .cta:hover {
+        transform: translateY(-3px) scale(1.02);
+        filter: saturate(1.15);
+      }
+      .cta:active {
+        transform: translateY(1px) scale(0.99);
+      }
+
+      .back {
+        position: absolute;
+        z-index: 5;
+        top: max(16px, env(safe-area-inset-top, 0px));
+        right: max(16px, env(safe-area-inset-right, 0px));
+        font-family: var(--display);
+        font-size: clamp(0.8rem, 1.3vw, 1.05rem);
+        padding: 0.55em 1.1em;
+        color: var(--cream);
+        background: var(--ink);
+        border: 3px solid var(--cream);
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5em;
+      }
+      .back:hover {
+        background: #5e2408;
+      }
+
+      /* ---------- Landing ---------- */
+      #screen-landing .screen-inner {
+        display: grid;
+        place-content: center;
+        justify-items: center;
+        gap: clamp(28px, 6vh, 64px);
+      }
+      .landmarks {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        z-index: 1;
+        width: min(48vw, 640px);
+        opacity: 0.55;
+        filter: blur(3px);
+        pointer-events: none;
+      }
+
+      /* ---------- Menu ---------- */
+      #screen-menu .screen-inner {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        gap: clamp(20px, 4vh, 48px);
+      }
+      #screen-menu .title .l1 {
+        font-size: clamp(1.8rem, 4.4vw, 4rem);
+      }
+      #screen-menu .title .l2 {
+        font-size: clamp(1.5rem, 4vw, 3.6rem);
+      }
+      .cards {
+        margin-top: 50px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: clamp(16px, 3vw, 48px);
+        width: min(100%, 1240px);
+        margin-inline: auto;
+        align-items: stretch;
+        min-height: 0;
+        padding-top: 1.4em;
+      }
+      .card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        border: var(--border) solid var(--ink);
+        border-radius: clamp(28px, 3.4vw, 52px);
+        background: linear-gradient(180deg, var(--card-a), var(--card-b));
+        padding: clamp(44px, 6vh, 72px) clamp(16px, 2.2vw, 30px)
+          clamp(24px, 4vh, 48px);
+        text-align: center;
+        transition: transform 0.18s ease;
+        min-height: 0;
+      }
+      .card:hover {
+        transform: translateY(-6px) rotate(-0.6deg);
+      }
+      .card .tab {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -45%);
+        font-family: var(--display);
+        font-size: clamp(1rem, 2.1vw, 1.9rem);
+        padding: 0.35em 1em;
+        white-space: nowrap;
+        border: var(--border) solid var(--ink);
+        border-radius: 999px;
+        background: linear-gradient(180deg, var(--card-a), var(--card-b));
+      }
+      .card .panel {
+        flex: 1;
+        display: grid;
+        place-content: center;
+        gap: 0.6em;
+        border: var(--border) solid var(--ink);
+        border-radius: clamp(24px, 3vw, 44px);
+        background: linear-gradient(180deg, var(--panel-a), var(--panel-b));
+        padding: 1.2em;
+        min-height: 160px;
+      }
+      .card .go {
+        font-family: var(--display);
+        font-size: clamp(1.3rem, 2.6vw, 2.5rem);
+        line-height: 1;
+      }
+      .card .blurb {
+        font-size: clamp(0.9rem, 1.1vw, 1.05rem);
+        opacity: 0.85;
+        max-width: 22ch;
+        margin-inline: auto;
+      }
+
+      /* ---------- Window screens (history / gameplay / diorama) ---------- */
+      .scene {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        background-size: cover;
+        background-position: center;
+        transition: opacity 0.6s ease;
+      }
+      .scene.placeholder {
+        background:
+          radial-gradient(
+            ellipse at 30% 40%,
+            rgba(255, 255, 255, 0.55),
+            transparent 50%
+          ),
+          repeating-linear-gradient(
+            0deg,
+            rgba(0, 0, 0, 0.04) 0 2px,
+            transparent 2px 4px
+          ),
+          linear-gradient(135deg, var(--bgA, #8a3a14), var(--bgB, #c9c3bb));
+      }
+      .scene .scene-label {
+        position: absolute;
+        right: max(16px, env(safe-area-inset-right, 0px));
+        bottom: 12px;
+        font-size: 0.8rem;
+        color: #fff;
+        background: rgba(69, 24, 4, 0.6);
+        padding: 0.3em 0.7em;
+        border-radius: 6px;
+      }
+
+      .window-grid {
+        height: 100%;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+        grid-template-rows: auto 1fr auto;
+        grid-template-areas: "label ." "stage stage" "talk talk";
+        gap: clamp(12px, 2vh, 24px);
+      }
+      .win-label {
+        grid-area: label;
+        justify-self: start;
+        font-family: var(--display);
+        font-size: clamp(1.4rem, 3.4vw, 3.4rem);
+        line-height: 1;
+        padding: 0.3em 1em;
+        color: var(--ink);
+        -webkit-text-stroke: 0.1em var(--cream);
+        paint-order: stroke fill;
+      }
+      .stage {
+        grid-area: stage;
+        min-height: 0;
+        display: grid;
+        place-items: center end;
+      }
+
+      .talk {
+        grid-area: talk;
+        display: flex;
+        align-items: flex-end;
+        gap: 0;
+        min-width: 0;
+      }
+      .character {
+        flex: none;
+        width: clamp(110px, 20vw, 300px);
+        aspect-ratio: 3 / 4;
+        margin-bottom: calc(-1 * clamp(16px, 3vh, 36px));
+        position: relative;
+        z-index: 2;
+        filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.35));
+      }
+      .character img,
+      .character svg {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: bottom;
+        display: block;
+      }
+
+      .bubble {
+        position: relative;
+        flex: 1;
+        min-width: 0;
+        max-width: 980px;
+        margin-left: calc(-1 * clamp(20px, 3vw, 48px));
+        margin-top: 1.6em;
+        border: var(--border) solid var(--ink);
+        border-radius: clamp(28px, 4vw, 60px);
+        background: linear-gradient(180deg, var(--orange-a), var(--orange-b));
+        padding: clamp(28px, 4vh, 48px) clamp(20px, 3vw, 48px)
+          clamp(16px, 2.4vh, 28px) clamp(36px, 5vw, 80px);
+        z-index: 1;
+      }
+      .nametag {
+        position: absolute;
+        top: 0;
+        left: clamp(28px, 4vw, 64px);
+        transform: translateY(-62%);
+        font-family: var(--display);
+        font-size: clamp(1.1rem, 2.6vw, 2.6rem);
+        line-height: 1;
+        padding: 0.25em 0.9em;
+        border: var(--border) solid var(--ink);
+        border-radius: 999px;
+        background: linear-gradient(180deg, var(--tag-a), var(--tag-b));
+        -webkit-text-stroke: 0.08em var(--cream);
+        paint-order: stroke fill;
+      }
+      .line {
+        margin: 0;
+        min-height: 3.6em;
+        max-width: 60ch;
+        font-size: clamp(1rem, 1.9vw, 1.6rem);
+        line-height: 1.2;
+        text-transform: uppercase;
+        letter-spacing: 0.01em;
+        -webkit-text-stroke: 0.12em var(--cream);
+        paint-order: stroke fill;
+      }
+      .bubble-foot {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-top: 0.6em;
+      }
+      .progress {
+        font-size: 0.9rem;
+        font-variant-numeric: tabular-nums;
+        opacity: 0.75;
+      }
+      .next {
+        font-family: var(--display);
+        font-size: clamp(0.85rem, 1.4vw, 1.15rem);
+        padding: 0.5em 1.2em;
+        border: 3px solid var(--cream);
+        border-radius: 999px;
+        background: var(--ink);
+        color: var(--cream);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4em;
+      }
+      .next:hover {
+        background: #5e2408;
+      }
+
+      /* Gameplay slot */
+      .game-slot {
+        width: min(100%, 720px);
+        height: min(100%, 440px);
+        min-height: 200px;
+        border: var(--border) solid var(--ink);
+        border-radius: 28px;
+        background: rgba(246, 231, 200, 0.92);
+        display: grid;
+        place-content: center;
+        text-align: center;
+        gap: 0.5em;
+        padding: 1.5em;
+        box-sizing: border-box;
+      }
+      .game-slot code {
+        font-family: ui-monospace, Menlo, monospace;
+        font-size: 0.85rem;
+        background: rgba(69, 24, 4, 0.1);
+        padding: 0.15em 0.4em;
+        border-radius: 4px;
+      }
+      .game-slot .big {
+        font-family: var(--display);
+        font-size: clamp(1.2rem, 2.4vw, 2rem);
+      }
+
+      /* Diorama frame */
+      .viewer {
+        width: min(100%, 860px);
+        aspect-ratio: 16 / 10;
+        max-height: 100%;
+        max-width: 100%;
+        border: clamp(10px, 1.2vw, 16px) solid #1b1210;
+        border-radius: 22px;
+        background: #ddd;
+        overflow: hidden;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+        box-sizing: border-box;
+      }
+      .viewer iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        display: block;
+      }
+      .viewer .empty {
+        height: 100%;
+        display: grid;
+        place-content: center;
+        text-align: center;
+        gap: 0.4em;
+        padding: 1em;
+        color: #3a2a24;
+      }
+
+      /* ---------- Phone ---------- */
+      @media (max-width: 760px) {
+        .cards {
+          grid-template-columns: 1fr;
+          gap: 36px;
+          overflow-y: auto;
+          padding-bottom: 24px;
+        }
+        #screen-menu .screen-inner {
+          overflow-y: auto;
+        }
+        .card .panel {
+          min-height: 90px;
+        }
+        .window-grid {
+          grid-template-columns: 1fr;
+          grid-template-areas: "label" "stage" "talk";
+        }
+        .win-label {
+          margin-top: 48px;
+        }
+        .stage {
+          place-items: center;
+        }
+        .character {
+          width: 92px;
+        }
+        .bubble {
+          margin-left: -18px;
+          padding-left: 28px;
+        }
+        .line {
+          min-height: 4.8em;
+        }
+        .landmarks {
+          width: 70vw;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition: none !important;
+          animation: none !important;
+        }
+      }
+    </style>
+
+    <!-- ============ LANDING ============ -->
+    <section class="screen" id="screen-landing">
+      <div class="parchment" data-bg="parchment"></div>
+      <svg class="landmarks" viewBox="0 0 640 520" aria-hidden="true">
+        <g fill="#6b4a26">
+          <rect x="70" y="40" width="40" height="480" />
+          <rect x="58" y="120" width="64" height="26" />
+          <rect x="50" y="300" width="80" height="220" />
+          <path d="M220 520V300l40-40h120l40 40v220z" />
+          <circle cx="320" cy="250" r="40" />
+          <rect x="460" y="330" width="60" height="190" />
+          <path d="M470 330l20-60 20 60z" />
+        </g>
+      </svg>
+      <div class="screen-inner">
+        <h1 class="title outlined">
+          <span class="l1"
+            ><span class="green">Luksong</span>
+            <span class="red">Baka</span></span
+          ><span class="l2">A Phygital Diorama</span>
+        </h1>
+        <button class="pill cta" data-go="menu" id="main-cta">
+          Let's Get<br />Learning
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ MENU ============ -->
+    <section class="screen" id="screen-menu" hidden>
+      <div class="parchment" data-bg="parchment"></div>
+      <div class="screen-inner">
+        <h1 class="title outlined">
+          <span class="l1"
+            ><span class="green">Luksong</span>
+            <span class="red">Baka</span></span
+          ><span class="l2">A Phygital Diorama</span>
+        </h1>
+        <div class="cards">
+          <button class="card" data-go="history">
+            <span class="tab">History</span
+            ><span class="panel"
+              ><span class="go">Get<br />Started</span
+              ><span class="blurb"
+                >Where the game came from, told by Kenneth</span
+              ></span
+            >
+          </button>
+          <button class="card" data-go="gameplay">
+            <span class="tab">Gameplay</span
+            ><span class="panel"
+              ><span class="go">Get<br />Started</span
+              ><span class="blurb">Learn the rules, then play</span></span
+            >
+          </button>
+          <button class="card" data-go="diorama">
+            <span class="tab">Diorama</span
+            ><span class="panel"
+              ><span class="go">Get<br />Started</span
+              ><span class="blurb">Explore the 3D model</span></span
+            >
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ HISTORY ============ -->
+    <section class="screen" id="screen-history" hidden>
+      <div class="scene placeholder" data-layer="a"></div>
+      <div class="scene placeholder" data-layer="b" style="opacity: 0"></div>
+      <button class="back" data-go="menu">◂ Main Menu</button>
+      <div class="screen-inner">
+        <div class="window-grid">
+          <div class="win-label pill">History</div>
+          <div class="stage"></div>
+          <div class="talk" data-dialogue="history"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ GAMEPLAY ============ -->
+    <section class="screen" id="screen-gameplay" hidden>
+      <div
+        class="scene placeholder"
+        style="--bgA: #7a3312; --bgB: #d3cbc0"
+      ></div>
+      <button class="back" data-go="menu">◂ Main Menu</button>
+      <div class="screen-inner">
+        <div class="window-grid">
+          <div class="win-label pill">Gameplay</div>
+          <div class="stage">
+            <!-- GAME MOUNT POINT: the game dev renders into #game-root -->
+            <div class="game-slot" id="game-root">
+              <span class="big">Game goes here</span>
+              <span>Mount point: <code>#game-root</code></span>
+            </div>
+          </div>
+          <div class="talk" data-dialogue="gameplay"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ DIORAMA ============ -->
+    <section class="screen" id="screen-diorama" hidden>
+      <div
+        class="scene placeholder"
+        style="--bgA: #86391a; --bgB: #cfc8bf"
+      ></div>
+      <button class="back" data-go="menu">◂ Main Menu</button>
+      <div class="screen-inner">
+        <div class="window-grid">
+          <div class="win-label pill">Diorama</div>
+          <div class="stage"><div class="viewer" id="viewer"></div></div>
+          <div class="talk" data-dialogue="diorama"></div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      /* =========================================================
+                           CONFIG — swap placeholders here when assets arrive.
+                           image: path/URL to a file. Leave "" to show the placeholder.
+                           ========================================================= */
+      const CONFIG = {
+        parchmentImage: "", // landing + menu background (blurred landmarks photo)
+        characterImage: "", // Kenneth PNG with transparent background
+        sketchfabModelId:
+          "luksong-baka-prototypev2-764dc83dcada4c5c8048b0b93fee2caf", // e.g. "a1b2c3d4..." from the Sketchfab model URL
+
+        // History backgrounds, keyed by name. Dialogue lines reference these keys.
+        scenes: {
+          plaza: {
+            image: "",
+            label: "Scene 1 · Barrio plaza",
+            a: "#8a3a14",
+            b: "#c9c3bb",
+          },
+          kids: {
+            image: "",
+            label: "Scene 2 · Kids playing",
+            a: "#5a2a10",
+            b: "#e0d6c8",
+          },
+          farm: {
+            image: "",
+            label: "Scene 3 · Carabao and farm",
+            a: "#6e4a1a",
+            b: "#d6cdb0",
+          },
+          today: {
+            image: "",
+            label: "Scene 4 · Today",
+            a: "#7a2e2e",
+            b: "#d9c9c0",
+          },
+        },
+
+        dialogues: {
+          history: [
+            {
+              speaker: "Kenneth",
+              scene: "plaza",
+              text: " Mabuhay! Tara, laro tayo ng Luksong Baka!",
+            },
+            {
+              speaker: "Kenneth",
+              scene: "plaza",
+              text: " Teka, 'di mo ba alam kung ano ito?",
+            },
+            {
+              speaker: "Kenneth",
+              scene: "plaza",
+              text: 'Ang Luksong Baka ay isang larong Pinoy kung saan ang mga manlalaro ay tatalon sa nakayukong kalaro, na kung tawagin ay "baka."',
+            },
+            {
+              speaker: "Kenneth",
+              scene: "plaza",
+              text: "Saan nga ba nagmula ang larong ito?",
+            },
+            {
+              speaker: "Kenneth",
+              scene: "kids",
+              text: "Ang Luksong Baka ay isa sa mga tradisyonal na larong Pilipino na matagal nang nilalaro ng mga batang Pilipino.",
+            },
+            {
+              speaker: "Kenneth",
+              scene: "farm",
+              text: "Bagama't hindi tiyak ang eksaktong pinagmulan nito, karaniwang iniuugnay ang larong ito sa Bulacan",
+            },
+            {
+              speaker: "Kenneth",
+              scene: "today",
+              text: "Noong unang panahon, nagsisilbi itong paraan ng paglilibang ng mga bata sa kanilang mga bakuran, kalsada, at iba pang maluluwag na lugar.",
+            },
+            {
+              speaker: "Kenneth",
+              scene: "today",
+              text: "Hindi lamang ito basta laro! Nakatutulong din ito sa pagpapaunlad ng ating liksi, balanse, lakas, at pakikipagkapwa.",
+            },
+            {
+              speaker: "Kenneth",
+              scene: "today",
+              text: "Sa paglipas ng panahon, naging bahagi na ito ng ating kulturang Pilipino at isa sa mga larong nagpapakita ng saya at pagkakaisa ng kabataan.",
+            },
+            {
+              speaker: "Kenneth",
+              scene: "today",
+              text: "Kaya mahalagang patuloy natin itong kilalanin, laruin, at ipasa sa susunod na henerasyon!",
+            },
+          ],
+          gameplay: [
+            {
+              speaker: "Kenneth",
+              text: "Ngayon, alamin naman natin kung paano nilalaro ang Luksong Baka.",
+            },
+            {
+              speaker: "Kenneth",
+              text: 'Una, kailangan ng dalawa o higit pang manlalaro. Pumili kung sino ang unang magiging "baka."',
+            },
+            {
+              speaker: "Kenneth",
+              text: "Ang napiling manlalaro ay yuyuko at ilalagay ang kanyang mga kamay sa tuhod upang magsilbing harang na tatalunan ng iba.",
+            },
+            {
+              speaker: "Kenneth",
+              text: 'Isa-isang tatalon ang mga manlalaro sa ibabaw ng nakayukong "baka," gamit ang kanilang mga kamay bilang suporta sa pagtalon.',
+            },
+            {
+              speaker: "Kenneth",
+              text: 'Kapag matagumpay na nakatalon ang lahat, maaaring bahagyang itaas ng "baka" ang kanyang posisyon upang mas mahirapan ang mga susunod na manlalaro.',
+            },
+            {
+              speaker: "Kenneth",
+              text: 'Habang tumataas ang posisyon ng "baka," mas kailangan ng tamang tiyempo, lakas, at liksi upang makatalon nang maayos!',
+            },
+            {
+              speaker: "Kenneth",
+              text: 'Kapag hindi nakatalon nang matagumpay ang isang manlalaro, maaari siyang maging susunod na "baka," depende sa napagkasunduang patakaran.',
+            },
+            {
+              speaker: "Kenneth",
+              text: 'At ganoon lang kasimple! Paulit-ulit na magpapatuloy ang laro habang sinusubukan ng bawat manlalaro na malampasan ang "baka."',
+            },
+          ],
+          diorama: [
+            {
+              speaker: "Kenneth",
+              text: "This is our diorama of a barrio court where kids play Luksong Baka.",
+            },
+            {
+              speaker: "Kenneth",
+              text: "Drag to rotate, scroll or pinch to zoom, and tap the hotspots to learn more.",
+            },
+          ],
+        },
+      };
+
+      /* ---------- Placeholder character (replaced by CONFIG.characterImage) ---------- */
+      const CHARACTER_SVG = `<svg viewBox="0 0 300 400" aria-label="Character placeholder">
+                          <ellipse cx="150" cy="128" rx="128" ry="34" fill="#D7B98A" stroke="#451804" stroke-width="5"/>
+                          <path d="M86 128c0-62 128-62 128 0z" fill="#D7B98A" stroke="#451804" stroke-width="5"/>
+                          <circle cx="150" cy="180" r="64" fill="#F2C9A4" stroke="#451804" stroke-width="5"/>
+                          <circle cx="128" cy="182" r="9" fill="#451804"/><circle cx="172" cy="182" r="9" fill="#451804"/>
+                          <path d="M132 210q18 12 36 0" fill="none" stroke="#451804" stroke-width="4" stroke-linecap="round"/>
+                          <path d="M84 400v-110q0-46 66-46t66 46v110z" fill="#F6F0E4" stroke="#451804" stroke-width="5"/>
+                          <path d="M118 246l32 34 32-34" fill="#D9432A" stroke="#451804" stroke-width="4"/>
+                          <text x="150" y="360" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#451804">character art</text>
+                        </svg>`;
+
+      /* ---------- Router (hash-based so each window is linkable) ---------- */
+      const SCREENS = ["landing", "menu", "history", "gameplay", "diorama"];
+      function show(name) {
+        if (!SCREENS.includes(name)) name = "landing";
+        SCREENS.forEach(
+          (s) => (document.getElementById("screen-" + s).hidden = s !== name),
+        );
+        if (dialogues[name]) dialogues[name].reset();
+        if (name === "diorama") mountViewer();
+        const btn = document.querySelector(`#screen-${name} button`);
+        if (btn) btn.focus({ preventScroll: true });
+      }
+      function go(name) {
+        if (location.hash.slice(1) === name) show(name);
+        else location.hash = name === "landing" ? "" : name;
+      }
+      document.addEventListener("click", (e) => {
+        const t = e.target.closest("[data-go]");
+        if (t) go(t.dataset.go);
+      });
+      window.addEventListener("hashchange", () => show(location.hash.slice(1)));
+
+      /* ---------- Dialogue component ---------- */
+      const reduceMotion = matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+
+      function createDialogue(host, lines, onLine) {
+        host.innerHTML = `
+                            <div class="character">${CONFIG.characterImage ? `<img src="${CONFIG.characterImage}" alt="">` : CHARACTER_SVG}</div>
+                            <div class="bubble" role="region" aria-live="polite">
+                              <div class="nametag"></div>
+                              <p class="line"></p>
+                              <div class="bubble-foot"><span class="progress"></span><button class="next" type="button">Next ▸</button></div>
+                            </div>`;
+        const nameEl = host.querySelector(".nametag");
+        const lineEl = host.querySelector(".line");
+        const progEl = host.querySelector(".progress");
+        const nextBtn = host.querySelector(".next");
+        let i = 0,
+          timer = null,
+          typing = false;
+
+        function render() {
+          const l = lines[i];
+          nameEl.textContent = l.speaker;
+          progEl.textContent = `${i + 1} / ${lines.length}`;
+          nextBtn.textContent = i === lines.length - 1 ? "Replay ↺" : "Next ▸";
+          onLine && onLine(l);
+          clearInterval(timer);
+          if (reduceMotion) {
+            lineEl.textContent = l.text;
+            typing = false;
+            return;
+          }
+          let n = 0;
+          typing = true;
+          lineEl.textContent = "";
+          timer = setInterval(() => {
+            lineEl.textContent = l.text.slice(0, ++n);
+            if (n >= l.text.length) {
+              clearInterval(timer);
+              typing = false;
+            }
+          }, 22);
+        }
+        function next() {
+          if (typing) {
+            clearInterval(timer);
+            lineEl.textContent = lines[i].text;
+            typing = false;
+            return;
+          }
+          i = (i + 1) % lines.length;
+          render();
+        }
+        nextBtn.addEventListener("click", next);
+        return {
+          reset() {
+            i = 0;
+            render();
+          },
+          next,
+          host,
+        };
+      }
+
+      /* History: crossfade between two background layers */
+      const histScreen = document.getElementById("screen-history");
+      const layers = [
+        histScreen.querySelector('[data-layer="a"]'),
+        histScreen.querySelector('[data-layer="b"]'),
+      ];
+      let front = 0,
+        currentScene = null;
+      function paintScene(el, key) {
+        const s = CONFIG.scenes[key];
+        if (!s) return;
+        el.classList.toggle("placeholder", !s.image);
+        el.style.backgroundImage = s.image ? `url("${s.image}")` : "";
+        el.style.setProperty("--bgA", s.a);
+        el.style.setProperty("--bgB", s.b);
+        el.innerHTML = s.image
+          ? ""
+          : `<span class="scene-label">${s.label}</span>`;
+      }
+      function setScene(key) {
+        if (!key || key === currentScene) return;
+        const back = layers[1 - front];
+        paintScene(back, key);
+        back.style.opacity = 1;
+        layers[front].style.opacity = 0;
+        front = 1 - front;
+        currentScene = key;
+      }
+
+      const dialogues = {};
+      document.querySelectorAll("[data-dialogue]").forEach((host) => {
+        const key = host.dataset.dialogue;
+        dialogues[key] = createDialogue(
+          host,
+          CONFIG.dialogues[key],
+          key === "history" ? (l) => setScene(l.scene) : null,
+        );
+      });
+
+      /* Keyboard: Enter / Space / → advances dialogue on the open window */
+      document.addEventListener("keydown", (e) => {
+        if (!["ArrowRight", "Enter", " "].includes(e.key)) return;
+        const open = Object.entries(dialogues).find(
+          ([k]) => !document.getElementById("screen-" + k).hidden,
+        );
+        if (
+          !open ||
+          (e.key !== "ArrowRight" &&
+            document.activeElement.closest("[data-go]"))
+        )
+          return;
+        if (
+          e.key === "ArrowRight" ||
+          document.activeElement === document.body
+        ) {
+          e.preventDefault();
+          open[1].next();
+        }
+      });
+
+      /* Diorama: Sketchfab embed */
+      let viewerMounted = false;
+      function mountViewer() {
+        if (viewerMounted) return;
+        const v = document.getElementById("viewer");
+        if (CONFIG.sketchfabModelId) {
+          v.innerHTML = `<iframe title="Luksong Baka diorama" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen
+
+                              src="https://sketchfab.com/3d-models/${CONFIG.sketchfabModelId}/embed?autostart=1&ui_theme=dark&ui_infos=0&ui_watermark=0"></iframe>`;
+        } else {
+          v.innerHTML = `<div class="empty"><strong style="font-family:var(--display);font-size:1.4rem">Sketchfab viewer</strong><span>Set <code>CONFIG.sketchfabModelId</code> to load the model.</span></div>`;
+        }
+        viewerMounted = true;
+      }
+
+      /* Parchment image override */
+      if (CONFIG.parchmentImage)
+        document
+          .querySelectorAll('[data-bg="parchment"]')
+          .forEach(
+            (el) =>
+              (el.style.backgroundImage = `url("${CONFIG.parchmentImage}")`),
+          );
+
+      show(location.hash.slice(1));
+    </script>
+  </body>
+</html>
