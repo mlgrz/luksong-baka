@@ -518,6 +518,170 @@
         color: #3a2a24;
       }
 
+      /* ---------- Image assets ---------- */
+      .logo {
+        display: block;
+        width: min(78vw, 720px);
+        max-height: 44vh;
+        object-fit: contain;
+        margin-inline: auto;
+        filter: drop-shadow(0 10px 18px rgba(69, 24, 4, 0.3));
+      }
+      #screen-landing .title .l2 {
+        margin-top: 0.2em;
+        font-size: clamp(1.4rem, 3.6vw, 3rem);
+      }
+      #screen-menu .logo {
+        width: min(60vw, 420px);
+        max-height: 22vh;
+      }
+      .icon-btn {
+        padding: 0;
+        border: 0;
+        background: none;
+        border-radius: 50%;
+        line-height: 0;
+        transition:
+          transform 0.15s ease,
+          filter 0.15s ease,
+          opacity 0.15s ease;
+      }
+      .icon-btn img {
+        width: 100%;
+        height: 100%;
+        filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+      }
+      .icon-btn:hover:not(:disabled) {
+        transform: translateY(-2px) scale(1.06);
+        filter: brightness(1.08);
+      }
+      .icon-btn:active:not(:disabled) {
+        transform: translateY(1px) scale(0.96);
+      }
+      .icon-btn:disabled {
+        opacity: 0.4;
+        cursor: default;
+      }
+      .back.icon-btn {
+        width: clamp(52px, 6vw, 80px);
+        height: clamp(52px, 6vw, 80px);
+        padding: 0;
+        background: none;
+        border: 0;
+      }
+      .nav {
+        display: inline-flex;
+        gap: 10px;
+      }
+      .nav .icon-btn {
+        width: clamp(46px, 4.6vw, 64px);
+        height: clamp(46px, 4.6vw, 64px);
+      }
+
+      /* Menu cards are the artwork itself */
+      .cards {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        padding-top: 0;
+        margin-top: 0;
+      }
+      .card {
+        display: grid;
+        place-items: center;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        background: none;
+      }
+      .card img {
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        min-height: 0;
+        object-fit: contain;
+        filter: drop-shadow(0 12px 18px rgba(69, 24, 4, 0.35));
+      }
+      .card:focus-visible {
+        outline-offset: -8px;
+        border-radius: 24px;
+      }
+
+      /* ---------- Loading screen ---------- */
+      .loader {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        transition: opacity 0.35s ease;
+      }
+      .loader.leaving {
+        opacity: 0;
+      }
+      .loader-inner {
+        position: relative;
+        z-index: 2;
+        height: 100%;
+        display: grid;
+        place-content: center;
+        justify-items: center;
+        gap: clamp(20px, 4vh, 40px);
+        padding-inline: 16px;
+      }
+      .loader-logo {
+        width: min(70vw, 520px);
+        max-height: 40vh;
+        object-fit: contain;
+        filter: drop-shadow(0 10px 18px rgba(69, 24, 4, 0.3));
+      }
+      .loader-bar {
+        --p: 0;
+        position: relative;
+        width: min(86vw, 760px);
+        aspect-ratio: 1000 / 131;
+      }
+      .loader-bar img {
+        position: absolute;
+        display: block;
+        max-width: none;
+      }
+      .lb-frame {
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .lb-fill {
+        left: 4.8%;
+        top: 24.2%;
+        width: 90.2%;
+        height: 49%;
+        clip-path: inset(0 calc((1 - var(--p)) * 100%) 0 0 round 999px);
+      }
+      .lb-runner {
+        top: -7.5%;
+        height: 115%;
+        aspect-ratio: 116 / 160;
+        left: calc(4.8% + 90.2% * var(--p));
+        transform: translateX(-38%);
+        animation: run 0.32s ease-in-out infinite alternate;
+        transform-origin: 50% 90%;
+      }
+      @keyframes run {
+        from {
+          transform: translateX(-38%) translateY(0) rotate(-4deg);
+        }
+        to {
+          transform: translateX(-38%) translateY(-7%) rotate(4deg);
+        }
+      }
+      .lb-text {
+        width: min(46vw, 380px);
+        animation: pulse 1.2s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        50% {
+          transform: scale(1.04);
+          opacity: 0.85;
+        }
+      }
+
       /* ---------- Phone ---------- */
       @media (max-width: 760px) {
         .cards {
@@ -529,8 +693,14 @@
         #screen-menu .screen-inner {
           overflow-y: auto;
         }
-        .card .panel {
-          min-height: 90px;
+        .cards {
+          align-content: start;
+          grid-auto-rows: max-content;
+        }
+        .card img {
+          width: min(78vw, 300px);
+          height: auto;
+          max-height: none;
         }
         .window-grid {
           grid-template-columns: 1fr;
@@ -564,6 +734,27 @@
       }
     </style>
 
+    <!-- ============ LOADING (cosmetic) ============ -->
+    <div class="loader" id="loader" hidden>
+      <div class="parchment"></div>
+      <div class="loader-inner">
+        <img class="loader-logo" src="assets/logo.png" alt="" />
+        <div
+          class="loader-bar"
+          role="progressbar"
+          aria-label="Loading"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+        >
+          <img class="lb-frame" src="assets/loading-frame.png" alt="" />
+          <img class="lb-fill" src="assets/loading-fill.png" alt="" />
+          <img class="lb-runner" src="assets/loading-runner.png" alt="" />
+        </div>
+        <img class="lb-text" src="assets/loading-text.png" alt="Loading…" />
+      </div>
+    </div>
+
     <!-- ============ LANDING ============ -->
     <section class="screen" id="screen-landing">
       <div class="parchment" data-bg="parchment"></div>
@@ -579,11 +770,9 @@
         </g>
       </svg>
       <div class="screen-inner">
-        <h1 class="title outlined">
-          <span class="l1"
-            ><span class="green">Luksong</span>
-            <span class="red">Baka</span></span
-          ><span class="l2">A Phygital Diorama</span>
+        <h1 class="title">
+          <img class="logo" src="assets/logo.png" alt="Luksong Baka" />
+          <span class="l2 outlined">A Phygital Diorama</span>
         </h1>
         <button class="pill cta" data-go="menu" id="main-cta">
           Let's Get<br />Learning
@@ -595,35 +784,27 @@
     <section class="screen" id="screen-menu" hidden>
       <div class="parchment" data-bg="parchment"></div>
       <div class="screen-inner">
-        <h1 class="title outlined">
-          <span class="l1"
-            ><span class="green">Luksong</span>
-            <span class="red">Baka</span></span
-          ><span class="l2">A Phygital Diorama</span>
+        <h1 class="title">
+          <img class="logo" src="assets/logo.png" alt="Luksong Baka" />
         </h1>
         <div class="cards">
           <button class="card" data-go="history">
-            <span class="tab">History</span
-            ><span class="panel"
-              ><span class="go">Get<br />Started</span
-              ><span class="blurb"
-                >Where the game came from, told by Kenneth</span
-              ></span
-            >
+            <img
+              src="assets/card-history.png"
+              alt="History: Get started. Where the game came from, told by Kenneth"
+            />
           </button>
           <button class="card" data-go="gameplay">
-            <span class="tab">Gameplay</span
-            ><span class="panel"
-              ><span class="go">Get<br />Started</span
-              ><span class="blurb">Learn the rules, then play</span></span
-            >
+            <img
+              src="assets/card-gameplay.png"
+              alt="Gameplay: Get started. Learn the rules, then play"
+            />
           </button>
           <button class="card" data-go="diorama">
-            <span class="tab">Diorama</span
-            ><span class="panel"
-              ><span class="go">Get<br />Started</span
-              ><span class="blurb">Explore the 3D model</span></span
-            >
+            <img
+              src="assets/card-diorama.png"
+              alt="Diorama: Get started. Explore the 3D model"
+            />
           </button>
         </div>
       </div>
@@ -633,7 +814,7 @@
     <section class="screen" id="screen-history" hidden>
       <div class="scene placeholder" data-layer="a"></div>
       <div class="scene placeholder" data-layer="b" style="opacity: 0"></div>
-      <button class="back" data-go="menu">◂ Main Menu</button>
+      <button class="back icon-btn" data-go="menu" aria-label="Main menu" title="Main menu"><img src="assets/btn-menu.png" alt="" /></button>
       <div class="screen-inner">
         <div class="window-grid">
           <div class="win-label pill">History</div>
@@ -649,7 +830,7 @@
         class="scene placeholder"
         style="--bgA: #7a3312; --bgB: #d3cbc0"
       ></div>
-      <button class="back" data-go="menu">◂ Main Menu</button>
+      <button class="back icon-btn" data-go="menu" aria-label="Main menu" title="Main menu"><img src="assets/btn-menu.png" alt="" /></button>
       <div class="screen-inner">
         <div class="window-grid">
           <div class="win-label pill">Gameplay</div>
@@ -671,7 +852,7 @@
         class="scene placeholder"
         style="--bgA: #86391a; --bgB: #cfc8bf"
       ></div>
-      <button class="back" data-go="menu">◂ Main Menu</button>
+      <button class="back icon-btn" data-go="menu" aria-label="Main menu" title="Main menu"><img src="assets/btn-menu.png" alt="" /></button>
       <div class="screen-inner">
         <div class="window-grid">
           <div class="win-label pill">Diorama</div>
@@ -687,6 +868,8 @@
                            image: path/URL to a file. Leave "" to show the placeholder.
                            ========================================================= */
       const CONFIG = {
+        // Cosmetic loading screen durations (ms): first visit, and opening a window.
+        loader: { initialMs: 2600, windowMs: 1400 },
         parchmentImage: "", // landing + menu background (blurred landmarks photo)
         characterImage: "", // Kenneth PNG with transparent background
         sketchfabModelId:
@@ -852,7 +1035,54 @@
         const t = e.target.closest("[data-go]");
         if (t) go(t.dataset.go);
       });
-      window.addEventListener("hashchange", () => show(location.hash.slice(1)));
+      window.addEventListener("hashchange", () => {
+        const name = location.hash.slice(1);
+        // Opening one of the three windows plays the (cosmetic) loading screen first.
+        if (WINDOWS.includes(name))
+          runLoader(CONFIG.loader.windowMs).then((ok) => ok && show(name));
+        else show(name);
+      });
+
+      /* ---------- Loading screen (purely cosmetic: nothing is fetched) ---------- */
+      const WINDOWS = ["history", "gameplay", "diorama"];
+      const loaderEl = document.getElementById("loader");
+      const loaderBar = loaderEl.querySelector(".loader-bar");
+      let loaderRun = 0;
+      function setProgress(p) {
+        loaderBar.style.setProperty("--p", p.toFixed(4));
+        loaderBar.setAttribute("aria-valuenow", Math.round(p * 100));
+      }
+      // Resolves true when finished, false if a newer run replaced it.
+      function runLoader(ms, waitFor = Promise.resolve()) {
+        const run = ++loaderRun;
+        ms = Math.max(1, reduceMotion ? Math.min(ms, 400) : ms);
+        loaderEl.classList.remove("leaving");
+        loaderEl.hidden = false;
+        setProgress(0);
+        let ready = false;
+        waitFor.then(() => (ready = true));
+        return new Promise((resolve) => {
+          const start = performance.now();
+          function frame(now) {
+            if (run !== loaderRun) return resolve(false);
+            const t = Math.min(1, (now - start) / ms);
+            // Uneven but always-forward pace so it feels like real loading.
+            let p = Math.min(1, t + 0.035 * Math.sin(t * Math.PI * 6));
+            if (!ready) p = Math.min(p, 0.92); // hold near the end until assets are in
+            setProgress(p);
+            if (p < 1) return requestAnimationFrame(frame);
+            setTimeout(() => {
+              if (run !== loaderRun) return resolve(false);
+              loaderEl.classList.add("leaving");
+              resolve(true);
+              setTimeout(() => {
+                if (run === loaderRun) loaderEl.hidden = true;
+              }, 350);
+            }, 250);
+          }
+          requestAnimationFrame(frame);
+        });
+      }
 
       /* ---------- Dialogue component ---------- */
       const reduceMotion = matchMedia(
@@ -865,12 +1095,20 @@
                             <div class="bubble" role="region" aria-live="polite">
                               <div class="nametag"></div>
                               <p class="line"></p>
-                              <div class="bubble-foot"><span class="progress"></span><button class="next" type="button">Next ▸</button></div>
+                              <div class="bubble-foot">
+                                <span class="progress"></span>
+                                <span class="nav">
+                                  <button class="prev icon-btn" type="button" aria-label="Previous" title="Previous"><img src="assets/btn-prev.png" alt=""></button>
+                                  <button class="next icon-btn" type="button" aria-label="Next" title="Next"><img src="assets/btn-next.png" alt=""></button>
+                                </span>
+                              </div>
                             </div>`;
         const nameEl = host.querySelector(".nametag");
         const lineEl = host.querySelector(".line");
         const progEl = host.querySelector(".progress");
         const nextBtn = host.querySelector(".next");
+        const nextImg = nextBtn.querySelector("img");
+        const prevBtn = host.querySelector(".prev");
         let i = 0,
           timer = null,
           typing = false;
@@ -879,7 +1117,10 @@
           const l = lines[i];
           nameEl.textContent = l.speaker;
           progEl.textContent = `${i + 1} / ${lines.length}`;
-          nextBtn.textContent = i === lines.length - 1 ? "Replay ↺" : "Next ▸";
+          const last = i === lines.length - 1;
+          nextImg.src = last ? "assets/btn-replay.png" : "assets/btn-next.png";
+          nextBtn.ariaLabel = nextBtn.title = last ? "Replay" : "Next";
+          prevBtn.disabled = i === 0;
           onLine && onLine(l);
           clearInterval(timer);
           if (reduceMotion) {
@@ -908,13 +1149,20 @@
           i = (i + 1) % lines.length;
           render();
         }
+        function prev() {
+          if (i === 0) return;
+          i -= 1;
+          render();
+        }
         nextBtn.addEventListener("click", next);
+        prevBtn.addEventListener("click", prev);
         return {
           reset() {
             i = 0;
             render();
           },
           next,
+          prev,
           host,
         };
       }
@@ -960,10 +1208,16 @@
 
       /* Keyboard: Enter / Space / → advances dialogue on the open window */
       document.addEventListener("keydown", (e) => {
-        if (!["ArrowRight", "Enter", " "].includes(e.key)) return;
+        if (!["ArrowRight", "ArrowLeft", "Enter", " "].includes(e.key)) return;
+        if (!loaderEl.hidden) return;
         const open = Object.entries(dialogues).find(
           ([k]) => !document.getElementById("screen-" + k).hidden,
         );
+        if (open && e.key === "ArrowLeft") {
+          e.preventDefault();
+          open[1].prev();
+          return;
+        }
         if (
           !open ||
           (e.key !== "ArrowRight" &&
@@ -1003,7 +1257,15 @@
               (el.style.backgroundImage = `url("${CONFIG.parchmentImage}")`),
           );
 
-      show(location.hash.slice(1));
+      // First visit: loading screen, held until the page's images have actually arrived.
+      const pageLoaded = new Promise((r) =>
+        document.readyState === "complete"
+          ? r()
+          : addEventListener("load", r, { once: true }),
+      );
+      runLoader(CONFIG.loader.initialMs, pageLoaded).then(
+        (ok) => ok && show(location.hash.slice(1)),
+      );
     </script>
   </body>
 </html>
